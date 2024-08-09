@@ -37,7 +37,7 @@ public class Main {
             event.setSpawningInstance(instance);
         });
         globalEventHandler.addListener(PlayerSpawnEvent.class, event -> {
-            if (event.isFirstSpawn() && event.getInstance().equals(instance)) {
+            if (event.getInstance().equals(instance)) {
                 event.getPlayer().getInventory().clear();
                 event.getPlayer().getInventory().setItemStack(8, ServerItem.MENU.buildItem());
             }
