@@ -7,6 +7,7 @@ import net.minestom.server.event.player.AsyncPlayerConfigurationEvent;
 import net.minestom.server.event.player.PlayerSkinInitEvent;
 import net.minestom.server.instance.Instance;
 import net.minestom.server.utils.mojang.MojangUtils;
+import xyz.tbvns.item.ItemListener;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -33,6 +34,8 @@ public class Main {
         globalEventHandler.addListener(AsyncPlayerConfigurationEvent.class, event -> {
             event.setSpawningInstance(instance);
         });
+
+        new ItemListener(globalEventHandler);
 
         minecraftServer.start("0.0.0.0", 25565);
     }
