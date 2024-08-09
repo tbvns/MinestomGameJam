@@ -13,5 +13,18 @@
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    
+
+    <dependencies>
+        <dependency>
+            <groupId>net.minestom</groupId>
+            <artifactId>minestom-snapshots</artifactId>
+            <version>461c56e749</version>
+        </dependency>
+        <dependency>
+            <groupId>dev.hollowcube</groupId>
+            <artifactId>schem</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+    </dependencies>
+
 </project>
