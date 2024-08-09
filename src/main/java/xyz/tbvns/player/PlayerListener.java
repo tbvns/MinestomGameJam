@@ -43,6 +43,7 @@ public class PlayerListener {
         globalEventHandler.addListener(PlayerSpawnEvent.class, event -> {
             if (event.getInstance().equals(Main.lobbyInstance)) {
                 event.getPlayer().getInventory().clear();
+                event.getPlayer().getInventory().setItemStack(0, ServerItem.RED_GUN.buildItem());
                 event.getPlayer().getInventory().setItemStack(8, ServerItem.MENU.buildItem());
             }
         });

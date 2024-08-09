@@ -4,6 +4,7 @@ import net.minestom.server.item.ItemStack;
 import net.minestom.server.tag.Tag;
 import org.jetbrains.annotations.Nullable;
 import xyz.tbvns.Utils;
+import xyz.tbvns.item.custom.*;
 
 import java.util.Arrays;
 
@@ -12,7 +13,9 @@ import java.util.Arrays;
  */
 public enum ServerItem {
 
-    MENU(new MenuItem());
+    MENU(new MenuItem()),
+    RED_GUN(new RedGun())
+    ;
 
     private final Item itemClass;
 
