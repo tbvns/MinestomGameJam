@@ -7,6 +7,9 @@ import xyz.tbvns.item.ItemListener;
 import xyz.tbvns.player.PlayerListener;
 
 public class Main {
+    /**
+     * The {@link Instance} representing the main lobby world.
+     */
     public static Instance lobbyInstance;
 
     public static void main(String[] args) {
