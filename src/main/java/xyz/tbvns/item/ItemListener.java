@@ -4,6 +4,7 @@ import net.minestom.server.event.EventFilter;
 import net.minestom.server.event.EventNode;
 import net.minestom.server.event.GlobalEventHandler;
 import net.minestom.server.event.player.PlayerUseItemEvent;
+import net.minestom.server.event.player.PlayerUseItemOnBlockEvent;
 import net.minestom.server.event.trait.ItemEvent;
 import xyz.tbvns.item.attribute.Clickable;
 
@@ -20,6 +21,12 @@ public class ItemListener {
             ServerItem serverItem = ServerItem.getServerItem(event.getItemStack());
             if (serverItem != null && serverItem.getItemClass() instanceof Clickable clickable) {
                 clickable.onClick(event);
+            }
+        });
+        itemNode.addListener(PlayerUseItemOnBlockEvent.class, event -> {
+            ServerItem serverItem = ServerItem.getServerItem(event.getItemStack());
+            if (serverItem != null && serverItem.getItemClass() instanceof Clickable clickable) {
+                clickable.onClickBlock(event);
             }
         });
 
