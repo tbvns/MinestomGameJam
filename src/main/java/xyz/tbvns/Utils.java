@@ -2,6 +2,7 @@ package xyz.tbvns;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 
 import java.text.DecimalFormat;
 
