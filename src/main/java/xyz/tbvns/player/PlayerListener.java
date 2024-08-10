@@ -24,6 +24,8 @@ public class PlayerListener {
 
     // store player skin as value for username so we dont keep requesting from mojang's api
     // we shou.d probably maybe clear it every now and then tho
+    // Note that Google's Guava API has a Cache class that we can set to auto-expire after writing in
+    // the case that the player logs off, but that's not auto-included with Minestom
     private static final HashMap<String, PlayerSkin> cachedSkins = new HashMap<String, PlayerSkin>();
 
     public PlayerListener(GlobalEventHandler globalEventHandler) {
