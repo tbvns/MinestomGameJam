@@ -14,9 +14,13 @@ import java.time.Duration;
 import static java.lang.Math.*;
 
 public class ColorProjectile extends Entity implements Projectile {
-    final Instance instance;
-    final Player player;
-    final double speed;
+    private final Instance instance;
+    private final Player player;
+    private final double speed;
+
+    private double xOffset = 0;
+    private double yOffset = 0;
+    private double zOffset = 0;
 
     public ColorProjectile(Color color, Instance instance, Player player, double speed) {
         super(EntityType.BLOCK_DISPLAY);
@@ -45,19 +49,23 @@ public class ColorProjectile extends Entity implements Projectile {
         //spawn the projectile
         setInstance(instance, player.getPosition().add(0, player.getEyeHeight(), 0));
         scheduleRemove(Duration.ofSeconds(3)); //TODO: remove on collision, but for testing right now 3 seconds is fine
-        System.out.println(position);
+
+        double xzLen = cos(Math.toRadians(position.pitch())); //not sure what this does exactly
+        xOffset = xzLen * cos(Math.toRadians(position.yaw() + 90)); //calculates the x-offset per tick based on the starting position's yaw
+        yOffset = sin(Math.toRadians(-position.pitch())); //calculates the y-offset per tick based on the starting position's pitch
+        zOffset = xzLen * sin(Math.toRadians(position.yaw() + 90)); //calculates the z-offset per tick based on the starting position's yaw
     }
 
     @Override
     public void tick() {
-        //DON'T TOUCH THAT IDK WHAT IT DOES
-        double xzLen = cos(Math.toRadians(position.pitch()));
-        double x = xzLen * cos(Math.toRadians(position.yaw() + 90));
-        double y = sin(Math.toRadians(-position.pitch()));
-        double z = xzLen * sin(Math.toRadians(position.yaw() + 90));
-        //END OF BLACK MAGIC
 
-        Pos point = new Pos( position.x() + x * speed, position.y() + y * speed, position.z() + z * speed, position.yaw(), position.pitch());
+        Pos point = new Pos(
+                position.x() + xOffset * speed,
+                position.y() + yOffset * speed,
+                position.z() + zOffset * speed,
+                position.yaw(),
+                position.pitch()
+        );
         teleport(point);
     }
 
