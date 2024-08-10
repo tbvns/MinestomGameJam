@@ -40,7 +40,7 @@ public abstract class ColorGun extends Item implements Clickable {
         Entity entity = new Entity(EntityType.BLOCK_DISPLAY);
         //edit projectile meta properties
         entity.editEntityMeta(BlockDisplayMeta.class, blockDisplayMeta -> {
-            blockDisplayMeta.setBrightnessOverride(15);
+            blockDisplayMeta.setBrightnessOverride(200);
             blockDisplayMeta.setBlockState(color.getBlock());
         });
         //edit projectile movement and collision properties
