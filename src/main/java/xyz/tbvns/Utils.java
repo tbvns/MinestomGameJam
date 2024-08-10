@@ -5,6 +5,7 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 
 import java.text.DecimalFormat;
+import java.util.logging.Level;
 
 /**
  * Static utility class.
@@ -39,6 +40,15 @@ public class Utils {
         String formattedNumber = new DecimalFormat("#,###.##").format(number);
         if (formattedNumber.endsWith("\\.0")) formattedNumber.replaceAll("\\.0", "");
         return formattedNumber;
+    }
+
+    /**
+     * Print a message with Logger level
+     * @param message The Message.
+     * @param level The level to log the message as
+     */
+    public static void log(String message, Level level) {
+        System.out.println("[" + level.getName() + "] " + message);
     }
 
 }
