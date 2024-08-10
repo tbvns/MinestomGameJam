@@ -28,6 +28,7 @@ public class ColorProjectile extends Entity implements Projectile {
         editEntityMeta(BlockDisplayMeta.class, blockDisplayMeta -> {
             blockDisplayMeta.setBrightnessOverride(200);
             blockDisplayMeta.setBlockState(color.getBlock());
+            blockDisplayMeta.setHasNoGravity(true);
         });
         //edit projectile collision properties
         setBoundingBox(0.5, 0.5, 0.5);
@@ -52,7 +53,7 @@ public class ColorProjectile extends Entity implements Projectile {
         //DON'T TOUCH THAT IDK WHAT IT DOES
         double xzLen = cos(Math.toRadians(position.pitch()));
         double x = xzLen * cos(Math.toRadians(position.yaw() + 90));
-        double y = sin(Math.toRadians(position.pitch()));
+        double y = sin(Math.toRadians(-position.pitch()));
         double z = xzLen * sin(Math.toRadians(position.yaw() + 90));
         //END OF BLACK MAGIC
 
