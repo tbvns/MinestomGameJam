@@ -1,5 +1,8 @@
 package xyz.tbvns;
 
+import net.hollowcube.schem.Rotation;
+import net.hollowcube.schem.Schematic;
+import net.hollowcube.schem.SchematicReader;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.entity.EntityType;
 import net.minestom.server.entity.LivingEntity;
@@ -26,6 +29,17 @@ public class Main {
         /*TEST CODE*/cow.setInstance(lobbyInstance);
         /*TEST CODE*/lobbyInstance.setBlock(0, -20, 0, Block.STONE);
         //End of test code
+
+        for (int x = 0; x < 20; x++) {
+            for (int z = 0; z < 20; z++) {
+                lobbyInstance.loadChunk(x - 10, z - 10);
+            }
+        }
+
+        Schematic schematic = new SchematicReader().read(Main.class.getResourceAsStream("/map.schem"));
+        schematic.build(Rotation.NONE, true).apply(lobbyInstance, -130, -1, -130, () -> {
+            System.out.println("Map built !");
+        });
 
         //set up listeners
         new PlayerListener(globalEventHandler);
