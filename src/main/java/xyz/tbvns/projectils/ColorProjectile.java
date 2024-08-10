@@ -41,7 +41,7 @@ public class ColorProjectile extends Entity implements Projectile {
             blockDisplayMeta.setPosRotInterpolationDuration(1);
         });
         //edit projectile collision properties
-        setBoundingBox(0.5, 0.5, 0.5);
+        setBoundingBox(color.getProjectileScale(), color.getProjectileScale(), color.getProjectileScale());
     }
 
     @Override
@@ -69,35 +69,42 @@ public class ColorProjectile extends Entity implements Projectile {
         teleport(point);
 
         //entity collisions (is there a better way to do this?)
-        boolean collided = false;
+        //shouldRemove is a boolean value set by the collision functions. If a collision occurs and the
+        //value of shouldRemove is false, and the collision function returns true, shouldRemove is set to
+        //true. Afterward, the shouldRemove value stays true until the entity gets removed in the check
+        //just after the collision checks.
+        boolean shouldRemove = false;
 
-        for (Entity entity : instance.getNearbyEntities(point, boundingBox.depth() * 2)) {
+        for (Entity entity : instance.getNearbyEntities(point, color.getProjectileScale())) {
             if (!(entity instanceof ColorProjectile) && boundingBox.intersectEntity(point, entity)) {
-                onCollideEntity(entity);
-                collided = true;
+                boolean remove = onCollideEntity(entity);
+                if (!shouldRemove && remove) shouldRemove = true;
             }
         }
 
         //block collisions
         Block b = instance.getBlock(point);
         if (!b.isAir()) {
-            onCollideBlock(b);
-            collided = true;
+            boolean remove = onCollideBlock(b);
+            if (!shouldRemove && remove) shouldRemove = true;
         }
 
-        if (collided) remove();
+        if (shouldRemove) remove();
     }
 
     @Override
-    public void onCollideBlock(Block block) {
+    public boolean onCollideBlock(Block block) {
         System.out.println("Collided with block " + block);
+        return true;
     }
 
     @Override
-    public void onCollideEntity(Entity entity) {
+    public boolean onCollideEntity(Entity entity) {
         System.out.println("Collided with entity " + entity);
-        if (!entity.equals(shooter) && entity instanceof LivingEntity livingEntity) {
+        if (entity.equals(shooter)) return false;
+        if (entity instanceof LivingEntity livingEntity) {
             livingEntity.damage(new Damage(DamageType.PLAYER_ATTACK, this, shooter, position, color.getProjectileDamage()));
         }
+        return true;
     }
 }

@@ -5,6 +5,6 @@ import net.minestom.server.instance.block.Block;
 
 public interface Projectile {
     void spawn();
-    void onCollideBlock(Block block);
-    void onCollideEntity(Entity entity);
+    boolean onCollideBlock(Block block);
+    boolean onCollideEntity(Entity entity);
 }
