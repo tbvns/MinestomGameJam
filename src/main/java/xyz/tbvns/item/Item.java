@@ -1,5 +1,6 @@
 package xyz.tbvns.item;
 
+import lombok.Getter;
 import net.minestom.server.item.Material;
 
 /**
@@ -7,9 +8,33 @@ import net.minestom.server.item.Material;
  */
 public class Item {
 
+    /**
+     * -- GETTER --
+     *
+     * @return The NBT ID of this custom item
+     */
+    @Getter
     private final String identifier;
+    /**
+     * -- GETTER --
+     *
+     * @return The {@link Material} of this custom item
+     */
+    @Getter
     private final Material material;
+    /**
+     * -- GETTER --
+     *
+     * @return The name of this custom item, in adventure formatting
+     */
+    @Getter
     private final String name;
+    /**
+     * -- GETTER --
+     *
+     * @return The multiple lines making up this item's description, in adventure formatting
+     */
+    @Getter
     private final String[] description;
 
     /**
@@ -27,31 +52,5 @@ public class Item {
         this.description = description;
     }
 
-    /**
-     * @return The NBT ID of this custom item
-     */
-    public String getIdentifier() {
-        return identifier;
-    }
 
-    /**
-     * @return The {@link Material} of this custom item
-     */
-    public Material getMaterial() {
-        return material;
-    }
-
-    /**
-     * @return The name of this custom item, in adventure formatting
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * @return The multiple lines making up this item's description, in adventure formatting
-     */
-    public String[] getDescription() {
-        return description;
-    }
 }
