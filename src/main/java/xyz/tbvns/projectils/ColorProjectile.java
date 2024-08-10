@@ -5,8 +5,8 @@ import net.minestom.server.entity.Entity;
 import net.minestom.server.entity.EntityType;
 import net.minestom.server.entity.Player;
 import net.minestom.server.entity.metadata.display.BlockDisplayMeta;
-import net.minestom.server.event.entity.EntityTickEvent;
 import net.minestom.server.instance.Instance;
+import net.minestom.server.instance.block.Block;
 import xyz.tbvns.game.Color;
 
 import java.time.Duration;
@@ -36,12 +36,6 @@ public class ColorProjectile extends Entity implements Projectile {
         });
         //edit projectile collision properties
         setBoundingBox(0.5, 0.5, 0.5);
-
-        eventNode().addListener(EntityTickEvent.class, entityTickEvent -> {
-            if (entityTickEvent.getEntity().equals(this)) {
-                tick();
-            }
-        });
     }
 
     @Override
@@ -57,8 +51,8 @@ public class ColorProjectile extends Entity implements Projectile {
     }
 
     @Override
-    public void tick() {
-
+    public void update(long time) {
+        super.update(time);
         Pos point = new Pos(
                 position.x() + xOffset * speed,
                 position.y() + yOffset * speed,
@@ -67,15 +61,34 @@ public class ColorProjectile extends Entity implements Projectile {
                 position.pitch()
         );
         teleport(point);
+
+        //entity collisions (is there a better way to do this?)
+        boolean collided = false;
+
+        for (Entity entity : instance.getNearbyEntities(point, boundingBox.depth() * 2)) {
+            if (!(entity instanceof ColorProjectile) && boundingBox.intersectEntity(point, entity)) {
+                onCollideEntity(entity);
+                collided = true;
+            }
+        }
+
+        //block collisions
+        Block b = instance.getBlock(point);
+        if (!b.isAir()) {
+            onCollideBlock(b);
+            collided = true;
+        }
+
+        if (collided) remove();
     }
 
     @Override
-    public void onCollideBlock() {
-        eventNode().getChildren().clear();
+    public void onCollideBlock(Block block) {
+        System.out.println("Collided with block " + block);
     }
 
     @Override
-    public void onCollideEntity() {
-        eventNode().getChildren().clear();
+    public void onCollideEntity(Entity entity) {
+        System.out.println("Collided with entity " + entity);
     }
 }
