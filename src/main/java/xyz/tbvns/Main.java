@@ -21,9 +21,11 @@ public class Main {
         lobbyInstance = MinecraftServer.getInstanceManager().createInstanceContainer();
         GlobalEventHandler globalEventHandler = MinecraftServer.getGlobalEventHandler();
 
-        LivingEntity cow = new LivingEntity(EntityType.COW);
-        cow.setInstance(lobbyInstance);
-        lobbyInstance.setBlock(0, -20, 0, Block.STONE);
+        //TODO: Remove this test code
+        /*TEST CODE*/LivingEntity cow = new LivingEntity(EntityType.COW);
+        /*TEST CODE*/cow.setInstance(lobbyInstance);
+        /*TEST CODE*/lobbyInstance.setBlock(0, -20, 0, Block.STONE);
+        //End of test code
 
         //set up listeners
         new PlayerListener(globalEventHandler);
