@@ -4,7 +4,8 @@ import net.minestom.server.item.ItemStack;
 import net.minestom.server.tag.Tag;
 import org.jetbrains.annotations.Nullable;
 import xyz.tbvns.Utils;
-import xyz.tbvns.item.custom.*;
+import xyz.tbvns.item.custom.MenuItem;
+import xyz.tbvns.item.custom.RedGun;
 
 import java.util.Arrays;
 

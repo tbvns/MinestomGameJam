@@ -22,7 +22,7 @@ public abstract class ColorGun extends Item implements Clickable {
     /**
      * Constructs a new color gun item.
      *
-     * @param color The {@link Color} of this color gun
+     * @param color    The {@link Color} of this color gun
      * @param material The {@link Material} of the custom item
      */
     public ColorGun(Color color, Material material) {
