@@ -50,10 +50,10 @@ public class ColorProjectile extends Entity implements Projectile {
     @Override
     public void tick() {
         //DON'T TOUCH THAT IDK WHAT IT DOES
-        double xzLen = cos(position.pitch());
-        double x = xzLen * cos(position.yaw());
-        double y = sin(position.pitch());
-        double z = xzLen * sin(-position.yaw());
+        double xzLen = cos(Math.toRadians(position.pitch()));
+        double x = xzLen * cos(Math.toRadians(position.yaw() + 90));
+        double y = sin(Math.toRadians(position.pitch()));
+        double z = xzLen * sin(Math.toRadians(position.yaw() + 90));
         //END OF BLACK MAGIC
 
         Pos point = new Pos( position.x() + x * speed, position.y() + y * speed, position.z() + z * speed, position.yaw(), position.pitch());
