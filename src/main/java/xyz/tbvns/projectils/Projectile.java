@@ -1,8 +1,10 @@
 package xyz.tbvns.projectils;
 
+import net.minestom.server.entity.Entity;
+import net.minestom.server.instance.block.Block;
+
 public interface Projectile {
     void spawn();
-    void tick();
-    void onCollideBlock();
-    void onCollideEntity();
+    boolean onCollideBlock(Block block);
+    boolean onCollideEntity(Entity entity);
 }

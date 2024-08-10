@@ -1,10 +1,5 @@
 package xyz.tbvns.item.custom;
 
-import net.minestom.server.collision.Aerodynamics;
-import net.minestom.server.coordinate.Pos;
-import net.minestom.server.entity.Entity;
-import net.minestom.server.entity.EntityType;
-import net.minestom.server.entity.metadata.display.BlockDisplayMeta;
 import net.minestom.server.event.player.PlayerUseItemEvent;
 import net.minestom.server.event.player.PlayerUseItemOnBlockEvent;
 import net.minestom.server.instance.Instance;
@@ -13,11 +8,9 @@ import xyz.tbvns.game.Color;
 import xyz.tbvns.item.Item;
 import xyz.tbvns.item.attribute.Clickable;
 import xyz.tbvns.projectils.Projectile;
-import xyz.tbvns.projectils.RedProjectile;
+import xyz.tbvns.projectils.ColorProjectile;
 
-import java.time.Duration;
-
-public abstract class ColorGun extends Item implements Clickable {
+public class ColorGun extends Item implements Clickable {
 
     private final Color color;
 
@@ -37,7 +30,7 @@ public abstract class ColorGun extends Item implements Clickable {
     public void onClick(PlayerUseItemEvent event) {
         Instance instance = event.getInstance();
 
-        Projectile projectile = new RedProjectile(instance, event.getPlayer(), 0.5);
+        Projectile projectile = new ColorProjectile(color, instance, event.getPlayer());
         projectile.spawn();
 
     }

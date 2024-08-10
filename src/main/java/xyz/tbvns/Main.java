@@ -12,6 +12,8 @@ import net.minestom.server.instance.block.Block;
 import xyz.tbvns.item.ItemListener;
 import xyz.tbvns.player.PlayerListener;
 
+import java.util.logging.Level;
+
 public class Main {
     /**
      * The {@link Instance} representing the main lobby world.
@@ -46,6 +48,6 @@ public class Main {
         new ItemListener(globalEventHandler);
 
         minecraftServer.start("0.0.0.0", 25565);
-        System.out.println("Minecraft server started! Running Minecraft version " + MinecraftServer.VERSION_NAME + ".");
+        Utils.log("Minecraft server started! Running Minecraft version " + MinecraftServer.VERSION_NAME + ".", Level.INFO);
     }
 }
