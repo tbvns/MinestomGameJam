@@ -3,7 +3,10 @@ package xyz.tbvns.projectils;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.entity.Entity;
 import net.minestom.server.entity.EntityType;
+import net.minestom.server.entity.LivingEntity;
 import net.minestom.server.entity.Player;
+import net.minestom.server.entity.damage.Damage;
+import net.minestom.server.entity.damage.DamageType;
 import net.minestom.server.entity.metadata.display.BlockDisplayMeta;
 import net.minestom.server.instance.Instance;
 import net.minestom.server.instance.block.Block;
@@ -15,18 +18,18 @@ import static java.lang.Math.*;
 
 public class ColorProjectile extends Entity implements Projectile {
     private final Instance instance;
-    private final Player player;
-    private final double speed;
+    private final Player shooter;
+    private final Color color;
 
     private double xOffset = 0;
     private double yOffset = 0;
     private double zOffset = 0;
 
-    public ColorProjectile(Color color, Instance instance, Player player, double speed) {
+    public ColorProjectile(Color color, Instance instance, Player shooter) {
         super(EntityType.BLOCK_DISPLAY);
-        this.player = player;
+        this.shooter = shooter;
         this.instance = instance;
-        this.speed = speed;
+        this.color = color;
 
         //edit projectile meta properties
         editEntityMeta(BlockDisplayMeta.class, blockDisplayMeta -> {
@@ -41,7 +44,7 @@ public class ColorProjectile extends Entity implements Projectile {
     @Override
     public void spawn() {
         //spawn the projectile
-        setInstance(instance, player.getPosition().add(0, player.getEyeHeight(), 0));
+        setInstance(instance, shooter.getPosition().add(0, shooter.getEyeHeight(), 0));
         scheduleRemove(Duration.ofSeconds(3)); //TODO: remove on collision, but for testing right now 3 seconds is fine
 
         double xzLen = cos(Math.toRadians(position.pitch())); //not sure what this does exactly
@@ -54,9 +57,9 @@ public class ColorProjectile extends Entity implements Projectile {
     public void update(long time) {
         super.update(time);
         Pos point = new Pos(
-                position.x() + xOffset * speed,
-                position.y() + yOffset * speed,
-                position.z() + zOffset * speed,
+                position.x() + xOffset * color.getProjectileSpeed(),
+                position.y() + yOffset * color.getProjectileSpeed(),
+                position.z() + zOffset * color.getProjectileSpeed(),
                 position.yaw(),
                 position.pitch()
         );
@@ -90,5 +93,8 @@ public class ColorProjectile extends Entity implements Projectile {
     @Override
     public void onCollideEntity(Entity entity) {
         System.out.println("Collided with entity " + entity);
+        if (!entity.equals(shooter) && entity instanceof LivingEntity livingEntity) {
+            livingEntity.damage(new Damage(DamageType.PLAYER_ATTACK, this, shooter, position, color.getProjectileDamage()));
+        }
     }
 }

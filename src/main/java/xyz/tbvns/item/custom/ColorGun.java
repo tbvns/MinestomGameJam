@@ -10,7 +10,7 @@ import xyz.tbvns.item.attribute.Clickable;
 import xyz.tbvns.projectils.Projectile;
 import xyz.tbvns.projectils.ColorProjectile;
 
-public abstract class ColorGun extends Item implements Clickable {
+public class ColorGun extends Item implements Clickable {
 
     private final Color color;
 
@@ -30,7 +30,7 @@ public abstract class ColorGun extends Item implements Clickable {
     public void onClick(PlayerUseItemEvent event) {
         Instance instance = event.getInstance();
 
-        Projectile projectile = new ColorProjectile(color, instance, event.getPlayer(), 0.5);
+        Projectile projectile = new ColorProjectile(color, instance, event.getPlayer());
         projectile.spawn();
 
     }
