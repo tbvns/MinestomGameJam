@@ -1,5 +1,6 @@
 package xyz.tbvns.game;
 
+import lombok.Getter;
 import net.minestom.server.instance.block.Block;
 
 public enum Color {
@@ -10,6 +11,7 @@ public enum Color {
     private final int r;
     private final int g;
     private final int b;
+    @Getter
     private final Block block;
 
     Color(int r, int g, int b, Block block) {
@@ -23,7 +25,4 @@ public enum Color {
         return new net.minestom.server.color.Color(r, g, b);
     }
 
-    public Block getBlock() {
-        return block;
-    }
 }

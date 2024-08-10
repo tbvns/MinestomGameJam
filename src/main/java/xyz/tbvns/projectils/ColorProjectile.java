@@ -1,30 +1,24 @@
 package xyz.tbvns.projectils;
 
-import lombok.AllArgsConstructor;
-import net.minestom.server.collision.Aerodynamics;
-import net.minestom.server.coordinate.Point;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.entity.Entity;
 import net.minestom.server.entity.EntityType;
-import net.minestom.server.entity.LivingEntity;
 import net.minestom.server.entity.Player;
 import net.minestom.server.entity.metadata.display.BlockDisplayMeta;
 import net.minestom.server.event.entity.EntityTickEvent;
-import net.minestom.server.event.instance.InstanceTickEvent;
 import net.minestom.server.instance.Instance;
-import org.jetbrains.annotations.NotNull;
 import xyz.tbvns.game.Color;
 
 import java.time.Duration;
 
 import static java.lang.Math.*;
 
-public class RedProjectile extends Entity implements Projectile {
+public class ColorProjectile extends Entity implements Projectile {
     final Instance instance;
     final Player player;
     final double speed;
 
-    public RedProjectile(Instance instance, Player player, double speed) {
+    public ColorProjectile(Color color, Instance instance, Player player, double speed) {
         super(EntityType.BLOCK_DISPLAY);
         this.player = player;
         this.instance = instance;
@@ -32,13 +26,11 @@ public class RedProjectile extends Entity implements Projectile {
 
         //edit projectile meta properties
         editEntityMeta(BlockDisplayMeta.class, blockDisplayMeta -> {
-            blockDisplayMeta.setBrightnessOverride(15);
-            blockDisplayMeta.setBlockState(Color.RED.getBlock());
+            blockDisplayMeta.setBrightnessOverride(200);
+            blockDisplayMeta.setBlockState(color.getBlock());
         });
-        //edit projectile movement and collision properties
-        setAerodynamics(new Aerodynamics(0, 0, 0)); //TODO: add vertical/horizontal drag if wanted
+        //edit projectile collision properties
         setBoundingBox(0.5, 0.5, 0.5);
-        setVelocity(player.getPosition().direction().mul(3.0)); //TODO: fix entity not moving
 
         eventNode().addListener(EntityTickEvent.class, entityTickEvent -> {
             if (entityTickEvent.getEntity().equals(this)) {

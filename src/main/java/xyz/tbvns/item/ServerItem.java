@@ -1,5 +1,6 @@
 package xyz.tbvns.item;
 
+import lombok.Getter;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.tag.Tag;
 import org.jetbrains.annotations.Nullable;
@@ -12,23 +13,22 @@ import java.util.Arrays;
 /**
  * Custom items that are present on the server.
  */
+@Getter
 public enum ServerItem {
 
     MENU(new MenuItem()),
     RED_GUN(new RedGun())
     ;
 
+    /**
+     * -- GETTER --
+     *
+     * @return The {@link Item} class associated with this {@link ServerItem}.
+     */
     private final Item itemClass;
 
     ServerItem(Item itemClass) {
         this.itemClass = itemClass;
-    }
-
-    /**
-     * @return The {@link Item} class associated with this {@link ServerItem}.
-     */
-    public Item getItemClass() {
-        return itemClass;
     }
 
     /**
