@@ -1,6 +1,5 @@
 package xyz.tbvns.item.custom;
 
-import net.minestom.server.collision.Aerodynamics;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.entity.Entity;
 import net.minestom.server.entity.EntityType;
@@ -42,9 +41,9 @@ public abstract class ColorGun extends Item implements Clickable {
         entity.editEntityMeta(BlockDisplayMeta.class, blockDisplayMeta -> {
             blockDisplayMeta.setBrightnessOverride(200);
             blockDisplayMeta.setBlockState(color.getBlock());
+            blockDisplayMeta.setHasNoGravity(true);
         });
         //edit projectile movement and collision properties
-        entity.setAerodynamics(new Aerodynamics(0, 0, 0)); //TODO: add vertical/horizontal drag if wanted
         entity.setBoundingBox(0.5, 0.5, 0.5);
         entity.setVelocity(event.getPlayer().getPosition().direction().mul(3.0)); //TODO: fix entity not moving
         //spawn the projectile
