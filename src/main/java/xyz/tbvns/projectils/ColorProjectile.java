@@ -1,6 +1,7 @@
 package xyz.tbvns.projectils;
 
 import net.minestom.server.coordinate.Pos;
+import net.minestom.server.coordinate.Vec;
 import net.minestom.server.entity.Entity;
 import net.minestom.server.entity.EntityType;
 import net.minestom.server.entity.LivingEntity;
@@ -33,9 +34,11 @@ public class ColorProjectile extends Entity implements Projectile {
 
         //edit projectile meta properties
         editEntityMeta(BlockDisplayMeta.class, blockDisplayMeta -> {
-            blockDisplayMeta.setBrightnessOverride(200);
             blockDisplayMeta.setBlockState(color.getBlock());
+            blockDisplayMeta.setScale(new Vec(color.getProjectileScale(), color.getProjectileScale(), color.getProjectileScale()));
+            blockDisplayMeta.setBrightnessOverride(200);
             blockDisplayMeta.setHasNoGravity(true);
+            blockDisplayMeta.setPosRotInterpolationDuration(1);
         });
         //edit projectile collision properties
         setBoundingBox(0.5, 0.5, 0.5);
