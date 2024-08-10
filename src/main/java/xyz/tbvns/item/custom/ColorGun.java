@@ -12,6 +12,8 @@ import net.minestom.server.item.Material;
 import xyz.tbvns.game.Color;
 import xyz.tbvns.item.Item;
 import xyz.tbvns.item.attribute.Clickable;
+import xyz.tbvns.projectils.Projectile;
+import xyz.tbvns.projectils.RedProjectile;
 
 import java.time.Duration;
 
@@ -34,23 +36,10 @@ public abstract class ColorGun extends Item implements Clickable {
     @Override
     public void onClick(PlayerUseItemEvent event) {
         Instance instance = event.getInstance();
-        Pos spawnPosition = event.getPlayer().getPosition().add(0, event.getPlayer().getEyeHeight(), 0); //TODO: maybe change this?
 
-        //create projectile
-        Entity entity = new Entity(EntityType.BLOCK_DISPLAY);
-        //edit projectile meta properties
-        entity.editEntityMeta(BlockDisplayMeta.class, blockDisplayMeta -> {
-            blockDisplayMeta.setBrightnessOverride(15);
-            blockDisplayMeta.setBlockState(color.getBlock());
-        });
-        //edit projectile movement and collision properties
-        entity.setAerodynamics(new Aerodynamics(0, 0, 0)); //TODO: add vertical/horizontal drag if wanted
-        entity.setBoundingBox(0.5, 0.5, 0.5);
-        entity.setVelocity(event.getPlayer().getPosition().direction().mul(3.0)); //TODO: fix entity not moving
-        //spawn the projectile
-        entity.setInstance(instance, spawnPosition);
+        Projectile projectile = new RedProjectile(instance, event.getPlayer(), 0.5);
+        projectile.spawn();
 
-        entity.scheduleRemove(Duration.ofSeconds(3)); //TODO: remove on collision, but for testing right now 3 seconds is fine
     }
 
     @Override
