@@ -1,5 +1,6 @@
 package xyz.tbvns.player;
 
+import net.minestom.server.entity.Player;
 import net.minestom.server.entity.PlayerSkin;
 import net.minestom.server.event.EventFilter;
 import net.minestom.server.event.EventNode;
@@ -13,6 +14,7 @@ import xyz.tbvns.Main;
 import xyz.tbvns.item.ServerItem;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.UUID;
 
 /**
@@ -20,20 +22,34 @@ import java.util.UUID;
  */
 public class PlayerListener {
 
+    // store player skin as value for username so we dont keep requesting from mojang's api
+    // we shou.d probably maybe clear it every now and then tho
+    private static final HashMap<String, PlayerSkin> cachedSkins = new HashMap<String, PlayerSkin>();
+
     public PlayerListener(GlobalEventHandler globalEventHandler) {
         //create item event node
         EventNode<PlayerEvent> node = EventNode.type("player-listener", EventFilter.PLAYER);
 
-        //load skin from mojang api
+        // check if player name is in hashmap, if not, grab it and save it :3
+        // then load skin if not null
         globalEventHandler.addListener(PlayerSkinInitEvent.class, event -> {
-            try {
-                UUID mojangUUID = MojangUtils.getUUID(event.getPlayer().getUsername());
-                PlayerSkin skin = PlayerSkin.fromUuid(mojangUUID.toString());
-                event.setSkin(skin);
-            } catch (IOException e) {
-                e.printStackTrace();
-                //log.warn("Player {}'s skin failed to load!", event.getPlayer().getUsername());
+            Player player = event.getPlayer();
+            String playerName = player.getUsername();
+            PlayerSkin skin = null;
+            if (cachedSkins.containsKey(playerName)) {
+                skin = cachedSkins.get(playerName);
+            } else {
+                try {
+                    UUID mojangUUID = MojangUtils.getUUID(event.getPlayer().getUsername());
+                    skin = PlayerSkin.fromUuid(mojangUUID.toString());
+                    cachedSkins.put(playerName, skin);
+                } catch (IOException e) {
+                    if (e.getMessage().contains("Couldn't find any profile")) return;
+                    e.printStackTrace();
+                }
             }
+            if (skin == null) return;
+            event.setSkin(skin);
         });
 
         //set up player on server join
