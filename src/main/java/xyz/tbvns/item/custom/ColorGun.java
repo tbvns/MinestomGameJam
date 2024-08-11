@@ -7,8 +7,8 @@ import net.minestom.server.item.Material;
 import xyz.tbvns.game.Color;
 import xyz.tbvns.item.Item;
 import xyz.tbvns.item.attribute.Clickable;
-import xyz.tbvns.projectils.Projectile;
 import xyz.tbvns.projectils.ColorProjectile;
+import xyz.tbvns.projectils.Projectile;
 
 public class ColorGun extends Item implements Clickable {
 

@@ -9,6 +9,9 @@ import net.minestom.server.entity.LivingEntity;
 import net.minestom.server.event.GlobalEventHandler;
 import net.minestom.server.instance.Instance;
 import net.minestom.server.instance.block.Block;
+import xyz.tbvns.config.Enemies;
+import xyz.tbvns.config.Waves;
+import xyz.tbvns.game.WaveThread;
 import xyz.tbvns.item.ItemListener;
 import xyz.tbvns.player.PlayerListener;
 
@@ -21,6 +24,9 @@ public class Main {
     public static Instance lobbyInstance;
 
     public static void main(String[] args) {
+        Waves.read();
+        Enemies.read();
+
         MinecraftServer minecraftServer = MinecraftServer.init();
 
         lobbyInstance = MinecraftServer.getInstanceManager().createInstanceContainer();
@@ -46,6 +52,9 @@ public class Main {
         //set up listeners
         new PlayerListener(globalEventHandler);
         new ItemListener(globalEventHandler);
+
+        //TODO: Implement a game start
+        new Thread(new WaveThread(0, lobbyInstance)).start();
 
         minecraftServer.start("0.0.0.0", 25565);
         Utils.log("Minecraft server started! Running Minecraft version " + MinecraftServer.VERSION_NAME + ".", Level.INFO);

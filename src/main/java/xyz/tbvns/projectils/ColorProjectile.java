@@ -15,7 +15,8 @@ import xyz.tbvns.game.Color;
 
 import java.time.Duration;
 
-import static java.lang.Math.*;
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
 
 public class ColorProjectile extends Entity implements Projectile {
     private final Instance instance;

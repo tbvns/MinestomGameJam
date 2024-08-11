@@ -51,4 +51,11 @@ public class Utils {
         System.out.println("[" + level.getName() + "] " + message);
     }
 
+    public static void sleep(int s) {
+        try {
+            Thread.sleep(s);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
