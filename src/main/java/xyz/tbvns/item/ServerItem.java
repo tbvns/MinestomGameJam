@@ -55,6 +55,7 @@ public enum ServerItem {
     public static @Nullable ServerItem getServerItem(ItemStack itemStack) {
         String nbt = itemStack.getTag(Tag.String("id"));
         for (ServerItem serverItem : values()) {
+            if (nbt == null) continue; // Solve NPE given when using ServerItem against blocks
             if (nbt.equals(serverItem.getItemClass().getIdentifier())) return serverItem;
         }
         return null;

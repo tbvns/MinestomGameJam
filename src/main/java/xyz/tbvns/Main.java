@@ -11,6 +11,7 @@ import net.minestom.server.instance.Instance;
 import net.minestom.server.instance.block.Block;
 import xyz.tbvns.config.Enemies;
 import xyz.tbvns.config.Waves;
+import xyz.tbvns.game.EnemyListener;
 import xyz.tbvns.game.WaveThread;
 import xyz.tbvns.item.ItemListener;
 import xyz.tbvns.player.PlayerListener;
@@ -52,6 +53,7 @@ public class Main {
         //set up listeners
         new PlayerListener(globalEventHandler);
         new ItemListener(globalEventHandler);
+        new EnemyListener(globalEventHandler);
 
         //TODO: Implement a game start
         new Thread(new WaveThread(0, lobbyInstance)).start();
