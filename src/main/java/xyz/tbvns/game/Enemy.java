@@ -47,10 +47,18 @@ public class Enemy extends EntityCreature {
     }
 
     /**
-     * Damages this TowerDefenseEnemy.
+     * Damages this Enemy.
+     * @param color The type of damage, represented by a {@link Color}
      * @param damage The damage amount
      */
-    public void damage(Player p, float damage) {
+    public void damage(Player p, Color color, float damage) {
+        //weakness and resistance
+        if (this.enemieObject.getResistantColor() != null && this.enemieObject.getResistantColor() == color) {
+            damage = damage * 0.5f;
+        } else if (this.enemieObject.getWeakColor() != null && this.enemieObject.getWeakColor() == color) {
+            damage = damage * 2;
+        }
+
         this.damage(Damage.fromEntity(p, damage));
         this.setCustomName(getCustomNameText());
         if (this.getHealth() <= 0) {
@@ -68,11 +76,11 @@ public class Enemy extends EntityCreature {
 
     // I feel like this can be optimized or condensed. Any ideas?
     private Component getCustomNameText() {
-        Component nameText = Utils.format("<green>" + enemieObject.getName());
-        nameText = nameText.append(Component.text(Utils.formatWithCommas(getHealth()), ChatColor.RED.toColor()));
-        nameText = nameText.append(Component.text("/", ChatColor.GRAY.toColor()));
-        nameText = nameText.append(Component.text(Utils.formatWithCommas(enemieObject.getMaxHealth()), ChatColor.RED.toColor()));
-        return nameText;
+        String name = "<white>" + enemieObject.getName() + //base name. Is this needed?
+                " <red>" + Utils.formatWithCommas(getHealth()) + "<gray>/<red>" + Utils.formatWithCommas(enemieObject.getMaxHealth()) + "❤" + //health format
+                (enemieObject.getWeakColor() != null ? " " + enemieObject.getWeakColor().getColorCode() + "\uD83D\uDDE1": "") + //weakness, resistance below
+                (enemieObject.getResistantColor() != null ? " <dark_gray>| " + enemieObject.getResistantColor().getColorCode() + "\uD83D\uDEE1" : "");
+        return Utils.format(name);
     }
 
     /**

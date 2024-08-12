@@ -3,6 +3,7 @@ package xyz.tbvns.config.pojo;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import xyz.tbvns.config.objects.EnemieObject;
+import xyz.tbvns.game.Color;
 
 @Data
 @NoArgsConstructor
@@ -19,7 +20,9 @@ public class EnemiesPojo {
                     5,
                     2,
                     10,
-                    0
+                    0,
+                    Color.BLUE,
+                    Color.RED
                     ),
             new EnemieObject("Wolf",
                     false,
@@ -32,7 +35,9 @@ public class EnemiesPojo {
                     20,
                     6,
                     11,
-                    3
+                    3,
+                    Color.BLUE,
+                    Color.RED
             ),
             new EnemieObject("Cow",
                     false,
@@ -45,7 +50,9 @@ public class EnemiesPojo {
                     100,
                     0.5,
                     12,
-                    5
+                    5,
+                    Color.BLUE,
+                    Color.RED
             ),
             new EnemieObject("Horse",
                     false,
@@ -58,7 +65,9 @@ public class EnemiesPojo {
                     50,
                     25,
                     13,
-                    20
+                    20,
+                    Color.BLUE,
+                    Color.RED
             ),
             new EnemieObject("Zombie",
                     false,
@@ -71,7 +80,9 @@ public class EnemiesPojo {
                     200,
                     100,
                     14,
-                    30
+                    30,
+                    Color.BLUE,
+                    Color.RED
             ),
             new EnemieObject("Mad cow",
                     false,
@@ -84,7 +95,9 @@ public class EnemiesPojo {
                     1000,
                     500,
                     15,
-                    60
+                    60,
+                    Color.BLUE,
+                    Color.RED
             )
     };
 }

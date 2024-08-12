@@ -2,6 +2,7 @@ package xyz.tbvns.config.objects;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import xyz.tbvns.game.Color;
 
 @Data
 @AllArgsConstructor
@@ -20,4 +21,6 @@ public class EnemieObject {
     private double killReward;
     private int GUIpos;
     private int minWave;
+    private Color weakColor;
+    private Color resistantColor;
 }
