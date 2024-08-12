@@ -4,11 +4,13 @@ import net.hollowcube.schem.Rotation;
 import net.hollowcube.schem.Schematic;
 import net.hollowcube.schem.SchematicReader;
 import net.minestom.server.MinecraftServer;
+import net.minestom.server.command.CommandManager;
 import net.minestom.server.entity.EntityType;
 import net.minestom.server.entity.LivingEntity;
 import net.minestom.server.event.GlobalEventHandler;
 import net.minestom.server.instance.Instance;
 import net.minestom.server.instance.block.Block;
+import xyz.tbvns.command.GamemodeCommand;
 import xyz.tbvns.config.Enemies;
 import xyz.tbvns.config.Waves;
 import xyz.tbvns.game.EnemyListener;
@@ -32,8 +34,10 @@ public class Main {
 
         lobbyInstance = MinecraftServer.getInstanceManager().createInstanceContainer();
         GlobalEventHandler globalEventHandler = MinecraftServer.getGlobalEventHandler();
+        CommandManager commandManager = MinecraftServer.getCommandManager();
 
         //TODO: Remove this test code
+        /*TEST CODE*/commandManager.register(new GamemodeCommand());
         /*TEST CODE*/LivingEntity cow = new LivingEntity(EntityType.COW);
         /*TEST CODE*/cow.setInstance(lobbyInstance);
         /*TEST CODE*/lobbyInstance.setBlock(0, -20, 0, Block.STONE);
