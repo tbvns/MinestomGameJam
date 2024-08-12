@@ -6,6 +6,7 @@ import net.minestom.server.event.EventFilter;
 import net.minestom.server.event.EventNode;
 import net.minestom.server.event.GlobalEventHandler;
 import net.minestom.server.event.player.AsyncPlayerConfigurationEvent;
+import net.minestom.server.event.player.PlayerDisconnectEvent;
 import net.minestom.server.event.player.PlayerSkinInitEvent;
 import net.minestom.server.event.player.PlayerSpawnEvent;
 import net.minestom.server.event.trait.PlayerEvent;
@@ -66,6 +67,10 @@ public class PlayerListener {
                 event.getPlayer().getInventory().setItemStack(2, ServerItem.BLUE_GUN.buildItem());
                 event.getPlayer().getInventory().setItemStack(8, ServerItem.MENU.buildItem());
             }
+            ((GamePlayer) event.getPlayer()).getGameSidebar().addViewer(event.getPlayer());
+        });
+        globalEventHandler.addListener(PlayerDisconnectEvent.class, event -> {
+            ((GamePlayer) event.getPlayer()).getGameSidebar().removeViewer(event.getPlayer());
         });
 
         globalEventHandler.addChild(node);

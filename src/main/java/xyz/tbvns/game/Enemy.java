@@ -13,6 +13,7 @@ import net.minestom.server.network.packet.server.play.EntityVelocityPacket;
 import org.jetbrains.annotations.NotNull;
 import xyz.tbvns.Utils;
 import xyz.tbvns.config.objects.EnemieObject;
+import xyz.tbvns.player.GamePlayer;
 
 import java.util.List;
 import java.util.Random;
@@ -51,7 +52,7 @@ public class Enemy extends EntityCreature {
      * @param color The type of damage, represented by a {@link Color}
      * @param damage The damage amount
      */
-    public void damage(Player p, Color color, float damage) {
+    public void damage(GamePlayer p, Color color, float damage) {
         //weakness and resistance
         if (this.enemieObject.getResistantColor() != null && this.enemieObject.getResistantColor() == color) {
             damage = damage * 0.5f;
@@ -62,7 +63,7 @@ public class Enemy extends EntityCreature {
         this.damage(Damage.fromEntity(p, damage));
         this.setCustomName(getCustomNameText());
         if (this.getHealth() <= 0) {
-            //TODO: add money for upgrade
+            p.addGold((int) Math.round(this.enemieObject.getKillReward())); //TODO: make getKillReward return int
         }
     }
 

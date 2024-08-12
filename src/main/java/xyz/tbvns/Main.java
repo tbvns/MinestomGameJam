@@ -17,6 +17,7 @@ import xyz.tbvns.config.Waves;
 import xyz.tbvns.game.EnemyListener;
 import xyz.tbvns.game.WaveThread;
 import xyz.tbvns.item.ItemListener;
+import xyz.tbvns.player.GamePlayer;
 import xyz.tbvns.player.PlayerListener;
 
 import java.util.logging.Level;
@@ -36,6 +37,7 @@ public class Main {
         lobbyInstance = MinecraftServer.getInstanceManager().createInstanceContainer();
         lobbyInstance.setChunkSupplier(LightingChunk::new);
         GlobalEventHandler globalEventHandler = MinecraftServer.getGlobalEventHandler();
+        MinecraftServer.getConnectionManager().setPlayerProvider(GamePlayer::new);
         CommandManager commandManager = MinecraftServer.getCommandManager();
 
         //TODO: Remove this test code

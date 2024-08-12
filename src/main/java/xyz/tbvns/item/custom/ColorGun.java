@@ -7,6 +7,7 @@ import net.minestom.server.item.Material;
 import xyz.tbvns.game.Color;
 import xyz.tbvns.item.Item;
 import xyz.tbvns.item.attribute.Clickable;
+import xyz.tbvns.player.GamePlayer;
 import xyz.tbvns.projectils.ColorProjectile;
 import xyz.tbvns.projectils.Projectile;
 
@@ -30,7 +31,7 @@ public class ColorGun extends Item implements Clickable {
     public void onClick(PlayerUseItemEvent event) {
         Instance instance = event.getInstance();
 
-        Projectile projectile = new ColorProjectile(color, instance, event.getPlayer());
+        Projectile projectile = new ColorProjectile(color, instance, (GamePlayer) event.getPlayer());
         projectile.spawn();
 
     }

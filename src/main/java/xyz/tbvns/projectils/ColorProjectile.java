@@ -5,7 +5,6 @@ import net.minestom.server.coordinate.Vec;
 import net.minestom.server.entity.Entity;
 import net.minestom.server.entity.EntityType;
 import net.minestom.server.entity.LivingEntity;
-import net.minestom.server.entity.Player;
 import net.minestom.server.entity.damage.Damage;
 import net.minestom.server.entity.damage.DamageType;
 import net.minestom.server.entity.metadata.display.BlockDisplayMeta;
@@ -13,6 +12,7 @@ import net.minestom.server.instance.Instance;
 import net.minestom.server.instance.block.Block;
 import xyz.tbvns.game.Color;
 import xyz.tbvns.game.Enemy;
+import xyz.tbvns.player.GamePlayer;
 
 import java.time.Duration;
 
@@ -21,14 +21,14 @@ import static java.lang.Math.sin;
 
 public class ColorProjectile extends Entity implements Projectile {
     private final Instance instance;
-    private final Player shooter;
+    private final GamePlayer shooter;
     private final Color color;
 
     private double xOffset = 0;
     private double yOffset = 0;
     private double zOffset = 0;
 
-    public ColorProjectile(Color color, Instance instance, Player shooter) {
+    public ColorProjectile(Color color, Instance instance, GamePlayer shooter) {
         super(EntityType.BLOCK_DISPLAY);
         this.shooter = shooter;
         this.instance = instance;
