@@ -12,6 +12,7 @@ import net.minestom.server.entity.metadata.display.BlockDisplayMeta;
 import net.minestom.server.instance.Instance;
 import net.minestom.server.instance.block.Block;
 import xyz.tbvns.game.Color;
+import xyz.tbvns.game.Enemy;
 
 import java.time.Duration;
 
@@ -95,15 +96,15 @@ public class ColorProjectile extends Entity implements Projectile {
 
     @Override
     public boolean onCollideBlock(Block block) {
-        System.out.println("Collided with block " + block);
         return true;
     }
 
     @Override
     public boolean onCollideEntity(Entity entity) {
-        System.out.println("Collided with entity " + entity);
         if (entity.equals(shooter)) return false;
-        if (entity instanceof LivingEntity livingEntity) {
+        if (entity instanceof Enemy enemy) {
+            enemy.damage(shooter, color, color.getProjectileDamage());
+        } else if (entity instanceof LivingEntity livingEntity) {
             livingEntity.damage(new Damage(DamageType.PLAYER_ATTACK, this, shooter, position, color.getProjectileDamage()));
         }
         return true;
