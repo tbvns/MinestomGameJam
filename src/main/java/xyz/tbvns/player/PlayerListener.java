@@ -1,5 +1,6 @@
 package xyz.tbvns.player;
 
+import net.kyori.adventure.text.Component;
 import net.minestom.server.entity.Player;
 import net.minestom.server.entity.PlayerSkin;
 import net.minestom.server.event.EventFilter;
@@ -12,6 +13,7 @@ import net.minestom.server.event.player.PlayerSpawnEvent;
 import net.minestom.server.event.trait.PlayerEvent;
 import net.minestom.server.utils.mojang.MojangUtils;
 import xyz.tbvns.Main;
+import xyz.tbvns.Utils;
 import xyz.tbvns.item.ServerItem;
 
 import java.io.IOException;
@@ -67,6 +69,7 @@ public class PlayerListener {
                 event.getPlayer().getInventory().setItemStack(2, ServerItem.BLUE_GUN.buildItem());
                 event.getPlayer().getInventory().setItemStack(3, ServerItem.YELLOW_GUN.buildItem());
                 event.getPlayer().getInventory().setItemStack(8, ServerItem.MENU.buildItem());
+                sendJoinInfo(event.getPlayer());
             }
             ((GamePlayer) event.getPlayer()).getGameSidebar().addViewer(event.getPlayer());
         });
@@ -75,6 +78,19 @@ public class PlayerListener {
         });
 
         globalEventHandler.addChild(node);
+    }
+
+    private void sendJoinInfo(Player player) {
+        player.sendMessage(Utils.format("<dark_gray><st>                                                    "));
+        player.sendMessage(Component.empty());
+        player.sendMessage(Utils.format("      <yellow><bold>Welcome to Color Defense!"));
+        player.sendMessage(Component.empty());
+        player.sendMessage(Utils.format("<yellow>Color Defense <gray>is a game where you"));
+        player.sendMessage(Utils.format("<gray>defend the core from waves of incoming"));
+        player.sendMessage(Utils.format("<gray>monsters. Monsters have <red>weaknesses <gray>and"));
+        player.sendMessage(Utils.format("<green>resistances <gray>to certain colors, so be sure"));
+        player.sendMessage(Utils.format("<gray>to use the correct color for the job!"));
+        player.sendMessage(Utils.format("<dark_gray><st>                                                    "));
     }
 
 }
