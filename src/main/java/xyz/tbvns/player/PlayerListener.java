@@ -65,6 +65,7 @@ public class PlayerListener {
                 event.getPlayer().getInventory().setItemStack(0, ServerItem.RED_GUN.buildItem());
                 event.getPlayer().getInventory().setItemStack(1, ServerItem.GREEN_GUN.buildItem());
                 event.getPlayer().getInventory().setItemStack(2, ServerItem.BLUE_GUN.buildItem());
+                event.getPlayer().getInventory().setItemStack(3, ServerItem.YELLOW_GUN.buildItem());
                 event.getPlayer().getInventory().setItemStack(8, ServerItem.MENU.buildItem());
             }
             ((GamePlayer) event.getPlayer()).getGameSidebar().addViewer(event.getPlayer());

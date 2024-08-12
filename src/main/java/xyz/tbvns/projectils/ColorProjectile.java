@@ -20,19 +20,22 @@ import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
 public class ColorProjectile extends Entity implements Projectile {
-    private final Instance instance;
-    private final GamePlayer shooter;
-    private final Color color;
+    protected final Instance instance;
+    protected final GamePlayer shooter;
+    protected final Color color;
 
     private double xOffset = 0;
     private double yOffset = 0;
     private double zOffset = 0;
+
+    private double yVel;
 
     public ColorProjectile(Color color, Instance instance, GamePlayer shooter) {
         super(EntityType.BLOCK_DISPLAY);
         this.shooter = shooter;
         this.instance = instance;
         this.color = color;
+        this.yVel = color.getInitialYVel();
 
         //edit projectile meta properties
         editEntityMeta(BlockDisplayMeta.class, blockDisplayMeta -> {
@@ -43,14 +46,14 @@ public class ColorProjectile extends Entity implements Projectile {
             blockDisplayMeta.setPosRotInterpolationDuration(1);
         });
         //edit projectile collision properties
-        setBoundingBox(color.getProjectileScale(), color.getProjectileScale(), color.getProjectileScale());
+        setBoundingBox(color.getProjectileScale() * 1.2, color.getProjectileScale() * 1.2, color.getProjectileScale() * 1.2);
     }
 
     @Override
     public void spawn() {
         //spawn the projectile
         setInstance(instance, shooter.getPosition().add(0, shooter.getEyeHeight(), 0));
-        scheduleRemove(Duration.ofSeconds(3)); //TODO: remove on collision, but for testing right now 3 seconds is fine
+        scheduleRemove(Duration.ofSeconds(3)); //auto-remove after 3 seconds if not collided with anything
 
         double xzLen = cos(Math.toRadians(position.pitch())); //not sure what this does exactly
         xOffset = xzLen * cos(Math.toRadians(position.yaw() + 90)); //calculates the x-offset per tick based on the starting position's yaw
@@ -61,16 +64,19 @@ public class ColorProjectile extends Entity implements Projectile {
     @Override
     public void update(long time) {
         super.update(time);
+
+        if (color.isHasGravity()) yVel -= 0.1;
+        if (yVel < -5) yVel = -5;
+
         Pos point = new Pos(
                 position.x() + xOffset * color.getProjectileSpeed(),
-                position.y() + yOffset * color.getProjectileSpeed(),
+                position.y() + yOffset * color.getProjectileSpeed() + yVel,
                 position.z() + zOffset * color.getProjectileSpeed(),
                 position.yaw(),
                 position.pitch()
         );
-        teleport(point);
 
-        //entity collisions (is there a better way to do this?)
+        //entity collisions, calculate before movement happens (is there a better way to do this?)
         //shouldRemove is a boolean value set by the collision functions. If a collision occurs and the
         //value of shouldRemove is false, and the collision function returns true, shouldRemove is set to
         //true. Afterward, the shouldRemove value stays true until the entity gets removed in the check
@@ -91,7 +97,13 @@ public class ColorProjectile extends Entity implements Projectile {
             if (!shouldRemove && remove) shouldRemove = true;
         }
 
-        if (shouldRemove) remove();
+        if (shouldRemove) {
+            remove();
+            return;
+        }
+
+        //if not removed, then actually move
+        teleport(point);
     }
 
     @Override

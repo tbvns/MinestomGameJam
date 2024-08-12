@@ -9,6 +9,7 @@ import xyz.tbvns.Utils;
 import xyz.tbvns.game.Color;
 import xyz.tbvns.item.custom.ColorGun;
 import xyz.tbvns.item.custom.MenuItem;
+import xyz.tbvns.projectils.YellowProjectile;
 
 import java.util.Arrays;
 
@@ -22,6 +23,7 @@ public enum ServerItem {
     RED_GUN(new ColorGun(Color.RED, Material.LEATHER_HORSE_ARMOR)),
     GREEN_GUN(new ColorGun(Color.GREEN, Material.IRON_HORSE_ARMOR)),
     BLUE_GUN(new ColorGun(Color.BLUE, Material.DIAMOND_HORSE_ARMOR)),
+    YELLOW_GUN(new ColorGun(Color.YELLOW, Material.GOLDEN_HORSE_ARMOR, YellowProjectile.class)),
     ;
 
     /**
