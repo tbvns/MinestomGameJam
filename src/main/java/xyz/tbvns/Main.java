@@ -9,6 +9,7 @@ import net.minestom.server.entity.EntityType;
 import net.minestom.server.entity.LivingEntity;
 import net.minestom.server.event.GlobalEventHandler;
 import net.minestom.server.instance.Instance;
+import net.minestom.server.instance.LightingChunk;
 import net.minestom.server.instance.block.Block;
 import xyz.tbvns.command.GamemodeCommand;
 import xyz.tbvns.config.Enemies;
@@ -33,6 +34,7 @@ public class Main {
         MinecraftServer minecraftServer = MinecraftServer.init();
 
         lobbyInstance = MinecraftServer.getInstanceManager().createInstanceContainer();
+        lobbyInstance.setChunkSupplier(LightingChunk::new);
         GlobalEventHandler globalEventHandler = MinecraftServer.getGlobalEventHandler();
         CommandManager commandManager = MinecraftServer.getCommandManager();
 

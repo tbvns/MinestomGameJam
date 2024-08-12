@@ -5,6 +5,7 @@ import net.minestom.server.entity.Entity;
 import net.minestom.server.entity.Player;
 import net.minestom.server.entity.ai.goal.RandomStrollGoal;
 import net.minestom.server.entity.ai.target.ClosestEntityTarget;
+import net.minestom.server.entity.pathfinding.generators.GroundNodeGenerator;
 import net.minestom.server.event.EventFilter;
 import net.minestom.server.event.EventNode;
 import net.minestom.server.event.entity.EntitySpawnEvent;
@@ -32,6 +33,7 @@ public class EnemyListener {
 						)
 				);
 			} else { /* If the entity is in the other intersection, they will go towards the castle (0, 0)*/
+				enemy.getNavigator().setNodeGenerator(GroundNodeGenerator::new); //attempt to fix navigation
 				enemy.getNavigator().setPathTo(Pos.ZERO);
 			}
 		});
