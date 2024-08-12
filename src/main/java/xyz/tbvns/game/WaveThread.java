@@ -1,5 +1,7 @@
 package xyz.tbvns.game;
 
+import net.kyori.adventure.key.Key;
+import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.title.Title;
@@ -46,12 +48,16 @@ public class WaveThread implements Runnable {
             }
         }
 
+        String invaders = enemyTypes.stream().reduce("", (s1, s2) -> {
+            if (s1.isEmpty()) return s2;
+            return s1 + ", " + s2;
+        });
         instance.getPlayers().forEach(p -> {
             p.showTitle(Title.title(Component.text("Wave " + (waveID + 1)).color(TextColor.color(255, 0, 0)),
-                    Utils.format("<gray>" + enemyTypes.stream().reduce("Invaders: ", (s1, s2) -> {
-                        if (s1.equals("Invaders: ")) return s1 + s2;
-                        return s1 + ", " + s2;
-                    }))));
+                    Utils.format("<gray>Invaders: " + invaders)));
+            p.playSound(Sound.sound().type(Key.key("entity.wither.spawn")).build());
+            p.sendMessage(Utils.format("<gray>Wave " + (waveID + 1) + " has begun!"));
+            p.sendMessage(Utils.format("<gray>Invading mobs: " + invaders));
         });
 
         for (int i = enemies.size() - 1; i >= 0; i--) {
