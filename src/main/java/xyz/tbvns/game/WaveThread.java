@@ -4,11 +4,11 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.title.Title;
 import net.minestom.server.coordinate.Pos;
-import net.minestom.server.entity.Player;
 import net.minestom.server.instance.Instance;
 import xyz.tbvns.Utils;
 import xyz.tbvns.config.Enemies;
 import xyz.tbvns.config.Waves;
+import xyz.tbvns.config.objects.EnemieObject;
 import xyz.tbvns.config.objects.WaveObject;
 
 import java.util.ArrayList;
@@ -26,12 +26,8 @@ public class WaveThread implements Runnable {
     @Override
     public void run() {
         Utils.sleep(15 * 1000);
-        instance.getEntities().forEach(t -> {
-            if (t instanceof Player) {
-                ((Player) t).showTitle(Title.title(Component.empty(), Component.text("Wave " + waveID).color(TextColor.color(255, 0, 0))));
-            }
-        });
         List<Enemy> enemies = new ArrayList<>();
+        List<String> enemyTypes = new ArrayList<>();
         WaveObject[] waves = Waves.waveData.getWaves();
         for (WaveObject wave : waves) {
             if (waveID >= wave.getStartingWave() && (waveID <= wave.getEndingWaves() || wave.getEndingWaves() == -1) && ((float) waveID / wave.getTimeBetweenSpawn()) % 1 == 0) {
@@ -41,10 +37,23 @@ public class WaveThread implements Runnable {
                 }
                 if (entityCount > wave.getPerWavesMaxCount()) entityCount = wave.getPerWavesMaxCount();
                 for (int i = 0; i < entityCount; i++) {
-                    enemies.add(new Enemy(Enemies.getFromName(wave.getEnemyType())));
+                    EnemieObject obj = Enemies.getFromName(wave.getEnemyType());
+                    if (obj != null) {
+                        enemies.add(new Enemy(obj));
+                        if (!enemyTypes.contains(obj.getName())) enemyTypes.add(obj.getName());
+                    }
                 }
             }
         }
+
+        instance.getPlayers().forEach(p -> {
+            p.showTitle(Title.title(Component.text("Wave " + (waveID + 1)).color(TextColor.color(255, 0, 0)),
+                    Utils.format("<gray>" + enemyTypes.stream().reduce("Invaders: ", (s1, s2) -> {
+                        if (s1.equals("Invaders: ")) return s1 + s2;
+                        return s1 + ", " + s2;
+                    }))));
+        });
+
         for (int i = enemies.size() - 1; i >= 0; i--) {
             Random random = new Random();
             int id = 0;
