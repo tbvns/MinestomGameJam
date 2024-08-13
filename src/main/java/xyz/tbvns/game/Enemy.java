@@ -45,6 +45,7 @@ public class Enemy extends EntityCreature {
 
         this.setCustomNameVisible(true);
         this.setCustomName(getCustomNameText());
+        this.lookAt(Pos.ZERO);
     }
 
     /**

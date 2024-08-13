@@ -1,17 +1,11 @@
 package xyz.tbvns.game;
 
 import net.minestom.server.coordinate.Pos;
-import net.minestom.server.entity.Entity;
-import net.minestom.server.entity.Player;
-import net.minestom.server.entity.ai.goal.RandomStrollGoal;
-import net.minestom.server.entity.ai.target.ClosestEntityTarget;
-import net.minestom.server.entity.pathfinding.generators.GroundNodeGenerator;
 import net.minestom.server.event.EventFilter;
 import net.minestom.server.event.EventNode;
 import net.minestom.server.event.entity.EntitySpawnEvent;
+import net.minestom.server.event.entity.EntityTickEvent;
 import net.minestom.server.event.trait.EntityEvent;
-
-import java.util.List;
 
 public class EnemyListener {
 
@@ -19,23 +13,15 @@ public class EnemyListener {
 	public EnemyListener(EventNode<? super EntityEvent> root) {
 		EventNode<EntityEvent> node = EventNode.type("enemy-listener", EventFilter.ENTITY);
 		node.addListener(EntitySpawnEvent.class, event -> {
-			Entity entity = event.getEntity();
-			if (!(entity instanceof Enemy enemy)) return;
-			System.out.println(enemy.getPosition());
-			// If the entity is in the (-125, -125) or (125, 125), they will choose a random direction
-			if (Math.signum(enemy.getPosition().x()) == Math.signum(enemy.getPosition().z())) {
-				enemy.addAIGroup(
-						List.of(
-								new RandomStrollGoal(enemy, 32)
-						),
-						List.of(
-								new ClosestEntityTarget(enemy, 32, e -> e instanceof Player)
-						)
-				);
-			} else { /* If the entity is in the other intersection, they will go towards the castle (0, 0)*/
-				enemy.getNavigator().setNodeGenerator(GroundNodeGenerator::new); //attempt to fix navigation
-				enemy.getNavigator().setPathTo(Pos.ZERO);
-			}
+			if (!(event.getEntity() instanceof Enemy enemy)) return;
+			enemy.lookAt(Pos.ZERO);
+		});
+		node.addListener(EntityTickEvent.class, event -> {
+			if (!(event.getEntity() instanceof Enemy enemy)) return;
+			Pos pos = enemy.getPosition().add(enemy.getShift().mul(-1)); // Remove the shift to get raw enemy position
+			if (Math.abs(pos.z()) < 35 || Math.abs(pos.x()) < 35) return;
+			Pos teleport = pos.add((Math.signum(pos.x()) * -1.0) / 20.0, 0, (Math.signum(pos.z() * -1.0)) / 20.0);
+			enemy.teleport(teleport.add(enemy.getShift()));
 		});
 
 		root.addChild(node);
