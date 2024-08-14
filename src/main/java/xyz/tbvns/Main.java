@@ -13,6 +13,7 @@ import net.minestom.server.instance.LightingChunk;
 import net.minestom.server.instance.block.Block;
 import xyz.tbvns.command.GamemodeCommand;
 import xyz.tbvns.config.Enemies;
+import xyz.tbvns.config.Towers;
 import xyz.tbvns.config.Waves;
 import xyz.tbvns.game.EnemyListener;
 import xyz.tbvns.game.WaveThread;
@@ -31,6 +32,7 @@ public class Main {
     public static void main(String[] args) {
         Waves.read();
         Enemies.read();
+        Towers.read();
 
         MinecraftServer minecraftServer = MinecraftServer.init();
 
